@@ -16,9 +16,9 @@ namespace WebCrawlerApplication.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUser(string email, string password)
         {
-            return  await _context.User.FirstAsync(x => x.ID == id);
+            return  await _context.User.SingleOrDefaultAsync(x => x.Email == email && x.Password==password);
         }
     }
 }

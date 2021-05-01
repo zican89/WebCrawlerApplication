@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebCrawlerApplication.Data;
 using WebCrawlerApplication.Models;
+using WebCrawlerApplication.Repositories;
 
 namespace WebCrawlerApplication.Controllers
 {
     public class ReportController : Controller
     {
-        private readonly WebCrawlerApplicationContext _context;
+        private readonly ICrawlerSearchRepository _crawlerSearchRepository;
 
-        public ReportController(WebCrawlerApplicationContext context)
+        public ReportController(ICrawlerSearchRepository crawlerSearchRepository)
         {
-            _context = context;
+            _crawlerSearchRepository = crawlerSearchRepository;
         }
 
         // GET: Report

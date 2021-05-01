@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebCrawlerApplication.Data;
 using WebCrawlerApplication.Models;
+using WebCrawlerApplication.Repositories;
 
 namespace WebCrawlerApplication.Controllers
 {
     public class CrawlerStartController : Controller
     {
-        private readonly WebCrawlerApplicationContext _context;
+        private readonly ICrawlerSearchRepository _crawlerSearchRepository;
 
-        public CrawlerStartController(WebCrawlerApplicationContext context)
+        public CrawlerStartController(ICrawlerSearchRepository crawlerSearchRepository)
         {
-            _context = context;
+            _crawlerSearchRepository = crawlerSearchRepository;
         }
 
         // GET: CrawlerStart

@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebCrawlerApplication.Data;
 using WebCrawlerApplication.Models;
+using WebCrawlerApplication.Services;
 
 namespace WebCrawlerApplication.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly WebCrawlerApplicationContext _context;
+        private readonly IUserService _userService;
 
-        public LoginController(WebCrawlerApplicationContext context)
+        public LoginController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
         // GET: Login
@@ -27,8 +28,11 @@ namespace WebCrawlerApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Email,Password")] LoginModel loginModel)
+        public async Task<IActionResult> Index([Bind("Email,Password")] LoginModel loginModel)
         {
+            if (await _userService.DoesUserExist(loginModel))
+                return RedirectToAction("CrawlerStart", "Index");
+
             return View();
         }
 

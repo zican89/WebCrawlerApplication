@@ -6,8 +6,8 @@ using WebCrawlerApplication.Data;
 
 namespace WebCrawlerApplication.Repositories
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
-        Task<User> GetUser(int id);
+        Task<User> GetUser(string email, string password);
     }
 }

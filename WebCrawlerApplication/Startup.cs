@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebCrawlerApplication.Data;
 using WebCrawlerApplication.Repositories;
+using WebCrawlerApplication.Services;
 
 namespace WebCrawlerApplication
 {
@@ -29,6 +30,8 @@ namespace WebCrawlerApplication
 
             services.AddScoped<ICrawlerSearchRepository, CrawlerSearchRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICrawlerSearchService, CrawlerSearchService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddControllersWithViews();
 
             services.AddDbContext<WebCrawlerApplicationContext>(options =>
