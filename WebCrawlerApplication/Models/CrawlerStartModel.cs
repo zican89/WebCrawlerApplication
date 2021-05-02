@@ -8,11 +8,11 @@ namespace WebCrawlerApplication.Models
 {
     public class CrawlerStartModel
     {
-        [Key]
         [Required]
         public string URL { get; set; }
         [Required]
         public string Expression { get; set; }
-        public int Depth { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Search Depth cannot be a negative number")]
+        public int? Depth { get; set; }
     }
 }
