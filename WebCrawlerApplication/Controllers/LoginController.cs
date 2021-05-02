@@ -24,7 +24,6 @@ namespace WebCrawlerApplication.Controllers
         // GET: Login
         public async Task<IActionResult> Index()
         {
-            
             return View();
         }
 
@@ -36,9 +35,6 @@ namespace WebCrawlerApplication.Controllers
             {
                 if (await _userService.DoesUserExist(loginModel))
                 {
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddMinutes(10);
-                    Response.Cookies.Append("Email", loginModel.Email, option);
                     return RedirectToAction("Index", "Home");
                 }
             }
