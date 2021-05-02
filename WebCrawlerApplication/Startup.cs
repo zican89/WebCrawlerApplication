@@ -62,7 +62,7 @@ namespace WebCrawlerApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=CrawlerStart}/{action=Create}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

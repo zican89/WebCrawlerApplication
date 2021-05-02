@@ -24,6 +24,7 @@ namespace WebCrawlerApplication.Controllers
         // GET: Login
         public async Task<IActionResult> Index()
         {
+            
             return View();
         }
 
@@ -38,12 +39,17 @@ namespace WebCrawlerApplication.Controllers
                     CookieOptions option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMinutes(10);
                     Response.Cookies.Append("Email", loginModel.Email, option);
-                    return RedirectToAction("Create", "CrawlerStart");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
-
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {       
+            Response.Cookies.Delete("Email");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

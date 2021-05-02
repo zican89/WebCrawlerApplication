@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebCrawlerApplication.Models
 {
     public class ReportModel
-    {[Key]
+    {
         public string Crawlername { get; set; }
         public DateTime Date { get; set; }
         public string URL { get; set; }

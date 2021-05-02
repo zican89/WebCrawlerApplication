@@ -6,13 +6,12 @@
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Crawlername)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
@@ -32,6 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Crawlername)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
@@ -42,11 +44,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HitCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Crawlername">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Crawlername">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Crawlername">Delete</a>
             </td>
         </tr>
 }

@@ -9,5 +9,6 @@ namespace WebCrawlerApplication.Services
     public interface ICrawlerSearchService
     {
         Task CrawlerStart(CrawlerStartModel crawlerStartModel);
+        Task<List<ReportModel>> GetCrawlerSearches();
     }
 }

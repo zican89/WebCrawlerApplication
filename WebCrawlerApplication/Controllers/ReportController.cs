@@ -8,22 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using WebCrawlerApplication.Data;
 using WebCrawlerApplication.Models;
 using WebCrawlerApplication.Repositories;
+using WebCrawlerApplication.Services;
 
 namespace WebCrawlerApplication.Controllers
 {
     public class ReportController : Controller
     {
-        private readonly ICrawlerSearchRepository _crawlerSearchRepository;
+        private readonly ICrawlerSearchService _crawlerSearchService;
 
-        public ReportController(ICrawlerSearchRepository crawlerSearchRepository)
+        public ReportController(ICrawlerSearchService crawlerSearchService)
         {
-            _crawlerSearchRepository = crawlerSearchRepository;
+            _crawlerSearchService = crawlerSearchService;
         }
 
         // GET: Report
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _crawlerSearchService.GetCrawlerSearches());
         }
 
         //// GET: Report/Details/5

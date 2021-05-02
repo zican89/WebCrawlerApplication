@@ -21,13 +21,31 @@ namespace WebCrawlerApplication.Services
             _crawlerSearchRepository = crawlerSearchRepository;
         }
 
-        public async Task CrawlerStart(CrawlerStartModel crawlerStartModel)
+        public async Task<List<ReportModel>> GetCrawlerSearches()
         {
-            List<string> controlledSites = new List<string>();
-            await Search(crawlerStartModel, 0, controlledSites);
+            List<CrawlerSearch> crawlerSearches = await _crawlerSearchRepository.GetCrawlerSearches();
+            
+            List<ReportModel> reportModels = crawlerSearches.Select(x => new ReportModel() 
+            { 
+                Crawlername = x.Crawlername, 
+                Date = x.Date, 
+                URL = x.URL, 
+                Expression = x.Expression, 
+                HitCount = x.HitCount 
+            }).ToList();
+            
+            return reportModels;
         }
 
-        private async Task Search(CrawlerStartModel crawlerStartModel, int currentDepth, List<string> controlledSites)
+        public async Task CrawlerStart(CrawlerStartModel crawlerStartModel)
+        {        
+            List<string> controlledSites = new List<string>();
+            StringBuilder crawlerName = new StringBuilder();
+            crawlerName.AppendFormat("\"{0}\" in \"{1}\"", crawlerStartModel.Expression, crawlerStartModel.URL);
+            await Search(crawlerStartModel, 0, controlledSites,crawlerName.ToString());
+        }
+
+        private async Task Search(CrawlerStartModel crawlerStartModel, int currentDepth, List<string> controlledSites, string crawleName)
         {
             if (!controlledSites.Any(x=> x==crawlerStartModel.URL))
             {
@@ -43,6 +61,7 @@ namespace WebCrawlerApplication.Services
                     Date = DateTime.Now,
                     URL = crawlerStartModel.URL,
                     Expression = crawlerStartModel.Expression,
+                    Crawlername=crawleName
                 };
 
                 if (response.Length > 0)
@@ -65,8 +84,8 @@ namespace WebCrawlerApplication.Services
                         {
                             URL = item,
                             Expression = crawlerStartModel.Expression,
-                            Depth = crawlerStartModel.Depth
-                        }, currentDepth, controlledSites);
+                            Depth = crawlerStartModel.Depth,
+                        }, currentDepth, controlledSites, crawleName);
                     }
                 }
             }
@@ -80,11 +99,16 @@ namespace WebCrawlerApplication.Services
             MatchCollection mactches = regx.Matches(currentSite);
             foreach (Match match in mactches)
             {
-                subSites.Add(match.Value);
+                Uri uriResult;
+                if(Uri.TryCreate(match.Value, UriKind.Absolute, out uriResult)
+                    && uriResult.Scheme == Uri.UriSchemeHttp)
+                    subSites.Add(match.Value);
             }
 
             return subSites;
         }
+
+
 
 
 
